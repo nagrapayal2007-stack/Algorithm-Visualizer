@@ -1,89 +1,155 @@
-
-/* ================================
-   GENERAL
-================================ */
-
-
 let array = [];
 
 let comparisons = 0;
 let swaps = 0;
 
-let sorting = false;
+let isSorting = false;
+let isPaused = false;
+
+let speed = 500;
 
 
-/* ================================
-   GENERATE RANDOM ARRAY
-================================ */
+/* Elements */
+
+const container =
+    document.getElementById("array-container");
+
+const sizeSlider =
+    document.getElementById("arraySize");
+
+const speedSlider =
+    document.getElementById("speed");
+
+const sizeValue =
+    document.getElementById("sizeValue");
+
+const speedValue =
+    document.getElementById("speedValue");
+
+const comparisonsDisplay =
+    document.getElementById("comparisons");
+
+const swapsDisplay =
+    document.getElementById("swaps");
+
+const status =
+    document.getElementById("status");
+
+const generateBtn =
+    document.getElementById("generateBtn");
+
+const startBtn =
+    document.getElementById("startBtn");
+
+const resetBtn =
+    document.getElementById("resetBtn");
+
+
+/* Generate Array */
 
 function generateArray() {
 
-    if (sorting) return;
-
     array = [];
 
-    for (let i = 0; i < 15; i++) {
+    const size =
+        Number(sizeSlider.value);
 
-        let randomNumber =
-            Math.floor(Math.random() * 250) + 40;
+    for (let i = 0; i < size; i++) {
 
-        array.push(randomNumber);
+        const value =
+            Math.floor(Math.random() * 250) + 30;
+
+        array.push(value);
     }
 
     comparisons = 0;
     swaps = 0;
 
-    document.getElementById("comparisons").innerText =
-        comparisons;
+    updateStats();
 
-    document.getElementById("swaps").innerText =
-        swaps;
+    status.innerText =
+        "Ready to sort";
 
     displayArray();
 }
 
 
-/* ================================
-   DISPLAY ARRAY
-================================ */
+/* Display Array */
 
-function displayArray() {
-
-    let container =
-        document.getElementById("array-container");
+function displayArray(
+    highlight1 = -1,
+    highlight2 = -1
+) {
 
     container.innerHTML = "";
 
-    for (let i = 0; i < array.length; i++) {
+    array.forEach((value, index) => {
 
-        let bar =
+        const bar =
             document.createElement("div");
 
         bar.classList.add("bar");
 
         bar.style.height =
-            array[i] + "px";
+            value + "px";
+
+        if (
+            index === highlight1 ||
+            index === highlight2
+        ) {
+
+            bar.classList.add("comparing");
+        }
 
         container.appendChild(bar);
-    }
+    });
 }
 
 
-/* ================================
-   BUBBLE SORT
-================================ */
+/* Update Statistics */
 
-async function startSorting() {
+function updateStats() {
 
-    if (sorting) return;
+    comparisonsDisplay.innerText =
+        comparisons;
 
-    sorting = true;
-
-    let bars =
-        document.querySelectorAll(".bar");
+    swapsDisplay.innerText =
+        swaps;
+}
 
 
-    for (let i = 0; i < array.length; i++) {
+/* Sleep */
+
+function sleep(ms) {
+
+    return new Promise(resolve =>
+        setTimeout(resolve, ms)
+    );
+}
+
+
+/* Bubble Sort */
+
+async function bubbleSort() {
+
+    isSorting = true;
+
+    startBtn.disabled = true;
+
+    generateBtn.disabled = true;
+
+    sizeSlider.disabled = true;
+
+
+    status.innerText =
+        "Sorting in progress...";
+
+
+    for (
+        let i = 0;
+        i < array.length;
+        i++
+    ) {
 
         for (
             let j = 0;
@@ -91,115 +157,149 @@ async function startSorting() {
             j++
         ) {
 
-            bars =
-                document.querySelectorAll(".bar");
-
-
-            /* Highlight comparison */
-
-            bars[j].style.background =
-                "linear-gradient(to top, #ffb300, #ffe600)";
-
-            bars[j + 1].style.background =
-                "linear-gradient(to top, #ffb300, #ffe600)";
-
-
             comparisons++;
 
-            document.getElementById(
-                "comparisons"
-            ).innerText = comparisons;
+            updateStats();
+
+            displayArray(j, j + 1);
+
+            await sleep(speed);
 
 
-            await sleep(350);
+            if (
+                array[j] >
+                array[j + 1]
+            ) {
 
+                const temp =
+                    array[j];
 
-            /* Check for swap */
+                array[j] =
+                    array[j + 1];
 
-            if (array[j] > array[j + 1]) {
-
-                /* Red during swap */
-
-                bars[j].style.background =
-                    "linear-gradient(to top, #ff1744, #ff5252)";
-
-                bars[j + 1].style.background =
-                    "linear-gradient(to top, #ff1744, #ff5252)";
-
-
-                await sleep(200);
-
-
-                let temp = array[j];
-
-                array[j] = array[j + 1];
-
-                array[j + 1] = temp;
-
+                array[j + 1] =
+                    temp;
 
                 swaps++;
 
-                document.getElementById(
-                    "swaps"
-                ).innerText = swaps;
+                updateStats();
 
+                displayArray(
+                    j,
+                    j + 1
+                );
 
-                displayArray();
-
-                await sleep(250);
+                await sleep(speed);
             }
-
-
-            displayArray();
-        }
-
-
-        /* Last sorted element becomes green */
-
-        bars =
-            document.querySelectorAll(".bar");
-
-        if (bars.length > 0) {
-
-            bars[array.length - i - 1].style.background =
-                "linear-gradient(to top, #00c853, #69f0ae)";
         }
     }
 
 
-    /* Make every bar green */
+    displayArray();
 
-    bars =
+    const bars =
         document.querySelectorAll(".bar");
+
 
     bars.forEach(bar => {
 
-        bar.style.background =
-            "linear-gradient(to top, #00c853, #69f0ae)";
+        bar.classList.add("sorted");
 
     });
 
 
-    sorting = false;
+    status.innerText =
+        "✓ Array sorted successfully";
+
+    isSorting = false;
+
+    startBtn.disabled = false;
+
+    generateBtn.disabled = false;
+
+    sizeSlider.disabled = false;
 }
 
 
-/* ================================
-   DELAY FUNCTION
-================================ */
+/* Speed */
 
-function sleep(milliseconds) {
+speedSlider.addEventListener(
+    "input",
+    () => {
 
-    return new Promise(resolve => {
+        speed =
+            Number(speedSlider.value);
 
-        setTimeout(resolve, milliseconds);
+        if (speed >= 700) {
 
-    });
-}
+            speedValue.innerText =
+                "Slow";
+
+        } else if (speed >= 350) {
+
+            speedValue.innerText =
+                "Medium";
+
+        } else {
+
+            speedValue.innerText =
+                "Fast";
+        }
+    }
+);
 
 
-/* ================================
-   INITIAL ARRAY
-================================ */
+/* Array Size */
+
+sizeSlider.addEventListener(
+    "input",
+    () => {
+
+        sizeValue.innerText =
+            sizeSlider.value;
+
+        if (!isSorting) {
+
+            generateArray();
+        }
+    }
+);
+
+
+/* Buttons */
+
+generateBtn.addEventListener(
+    "click",
+    generateArray
+);
+
+
+startBtn.addEventListener(
+    "click",
+    () => {
+
+        if (!isSorting) {
+
+            bubbleSort();
+        }
+    }
+);
+
+
+resetBtn.addEventListener(
+    "click",
+    () => {
+
+        isSorting = false;
+
+        generateArray();
+
+        status.innerText =
+            "Array reset";
+    }
+);
+
+
+/* Initial Array */
 
 generateArray();

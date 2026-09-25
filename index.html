@@ -1,7 +1,5 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,58 +11,91 @@
 
 <body>
 
-    <!-- Background overlay -->
-    <div class="overlay"></div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            ⚡ Algorithm Visualizer
+        </div>
 
-    <main class="main-container">
+        <div class="nav-links">
+            <a href="#visualizer">Visualizer</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
 
-        <!-- Header -->
-        <header>
-            
-            <h1>
-                Bubble Sort
-                <span>Visualizer</span>
-            </h1>
 
-            <p class="description">
-                Watch the Bubble Sort algorithm work step-by-step
-            </p>
-        </header>
+    <!-- Header -->
+    <header class="hero">
+        <div class="badge">DSA PROJECT</div>
 
+        <h1>Bubble Sort Visualizer</h1>
+
+        <p>
+            Learn how Bubble Sort works through an interactive
+            step-by-step visualization.
+        </p>
+    </header>
+
+
+    <!-- Main -->
+    <main id="visualizer">
 
         <!-- Controls -->
         <section class="control-panel">
 
-            <button onclick="generateArray()" class="btn">
-                🔄 Generate Array
-            </button>
+            <div class="control-group">
+                <label for="arraySize">
+                    Array Size:
+                    <span id="sizeValue">15</span>
+                </label>
 
-            <button onclick="startSorting()" class="btn start-btn">
-                ▶ Start Sorting
-            </button>
+                <input
+                    type="range"
+                    id="arraySize"
+                    min="5"
+                    max="30"
+                    value="15"
+                >
+            </div>
+
+
+            <div class="control-group">
+                <label for="speed">
+                    Speed:
+                    <span id="speedValue">Medium</span>
+                </label>
+
+                <input
+                    type="range"
+                    id="speed"
+                    min="50"
+                    max="1000"
+                    value="500"
+                >
+            </div>
+
+
+            <div class="buttons">
+                <button id="generateBtn">
+                    Generate Array
+                </button>
+
+                <button id="startBtn" class="primary">
+                    ▶ Start Sorting
+                </button>
+
+                <button id="resetBtn">
+                    ↻ Reset
+                </button>
+            </div>
 
         </section>
 
 
-        <!-- Algorithm information -->
-        <section class="algorithm-info">
-
-            <div class="info-card">
-                <span>Algorithm</span>
-                <strong>Bubble Sort</strong>
-            </div>
-
-            <div class="info-card">
-                <span>Time Complexity</span>
-                <strong>O(n²)</strong>
-            </div>
-
-            <div class="info-card">
-                <span>Space Complexity</span>
-                <strong>O(1)</strong>
-            </div>
-
-        </section>
+        <!-- Status -->
+        <div class="status" id="status">
+            Ready to sort
+        </div>
 
 
         <!-- Visualization -->
@@ -76,46 +107,106 @@
 
 
         <!-- Statistics -->
-        <section class="statistics">
+        <section class="stats">
 
             <div class="stat-card">
-                <span>Comparisons</span>
-                <strong id="comparisons">0</strong>
+                <span class="stat-icon">🔍</span>
+
+                <div>
+                    <p>Comparisons</p>
+                    <h2 id="comparisons">0</h2>
+                </div>
             </div>
 
+
             <div class="stat-card">
-                <span>Swaps</span>
-                <strong id="swaps">0</strong>
+                <span class="stat-icon">🔄</span>
+
+                <div>
+                    <p>Swaps</p>
+                    <h2 id="swaps">0</h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span class="stat-icon">⏱️</span>
+
+                <div>
+                    <p>Time Complexity</p>
+                    <h2>O(n²)</h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span class="stat-icon">💾</span>
+
+                <div>
+                    <p>Space Complexity</p>
+                    <h2>O(1)</h2>
+                </div>
             </div>
 
         </section>
 
 
-        <!-- Explanation -->
-        <section class="explanation">
+        <!-- About -->
+        <section class="about" id="about">
 
-            <h2>How Bubble Sort Works</h2>
+            <div class="section-title">
+                <span>📚</span>
+                <h2>How Bubble Sort Works</h2>
+            </div>
 
             <p>
-                Bubble Sort repeatedly compares adjacent elements and
-                swaps them if they are in the wrong order. After every
-                pass, the largest unsorted element moves to its correct
-                position.
+                Bubble Sort is a simple comparison-based sorting algorithm.
+                It repeatedly compares adjacent elements and swaps them
+                if they are in the wrong order.
             </p>
+
+            <div class="steps">
+
+                <div class="step">
+                    <span>01</span>
+                    <h3>Compare</h3>
+                    <p>
+                        Compare two adjacent elements.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <span>02</span>
+                    <h3>Swap</h3>
+                    <p>
+                        Swap them if the first element is larger.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <span>03</span>
+                    <h3>Repeat</h3>
+                    <p>
+                        Continue until the entire array is sorted.
+                    </p>
+                </div>
+
+            </div>
 
         </section>
 
-
-        <footer>
-            
-        </footer>
-
     </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            Bubble Sort Visualizer • DSA College Project
+        </p>
+    </footer>
 
 
     <script src="script.js"></script>
 
 </body>
-
 </html>
-
