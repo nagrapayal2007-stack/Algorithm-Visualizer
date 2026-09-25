@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bubble Sort Visualizer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Background overlay -->
+    <div class="overlay"></div>
+
+    <main class="main-container">
+
+        <!-- Header -->
+        <header>
+            
+            <h1>
+                Bubble Sort
+                <span>Visualizer</span>
+            </h1>
+
+            <p class="description">
+                Watch the Bubble Sort algorithm work step-by-step
+            </p>
+        </header>
+
+
+        <!-- Controls -->
+        <section class="control-panel">
+
+            <button onclick="generateArray()" class="btn">
+                🔄 Generate Array
+            </button>
+
+            <button onclick="startSorting()" class="btn start-btn">
+                ▶ Start Sorting
+            </button>
+
+        </section>
+
+
+        <!-- Algorithm information -->
+        <section class="algorithm-info">
+
+            <div class="info-card">
+                <span>Algorithm</span>
+                <strong>Bubble Sort</strong>
+            </div>
+
+            <div class="info-card">
+                <span>Time Complexity</span>
+                <strong>O(n²)</strong>
+            </div>
+
+            <div class="info-card">
+                <span>Space Complexity</span>
+                <strong>O(1)</strong>
+            </div>
+
+        </section>
+
+
+        <!-- Visualization -->
+        <section class="visualizer-card">
+
+            <div id="array-container"></div>
+
+        </section>
+
+
+        <!-- Statistics -->
+        <section class="statistics">
+
+            <div class="stat-card">
+                <span>Comparisons</span>
+                <strong id="comparisons">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Swaps</span>
+                <strong id="swaps">0</strong>
+            </div>
+
+        </section>
+
+
+        <!-- Explanation -->
+        <section class="explanation">
+
+            <h2>How Bubble Sort Works</h2>
+
+            <p>
+                Bubble Sort repeatedly compares adjacent elements and
+                swaps them if they are in the wrong order. After every
+                pass, the largest unsorted element moves to its correct
+                position.
+            </p>
+
+        </section>
+
+
+        <footer>
+            
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
+
