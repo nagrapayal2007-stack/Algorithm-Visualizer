@@ -4,192 +4,434 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Bubble Sort Visualizer</title>
+    <title>LaunchPad | Space Mission Priority Engine</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Navbar -->
+    <!-- Background Stars -->
+    <div class="stars"></div>
+
+    <!-- Navigation -->
     <nav class="navbar">
+
         <div class="logo">
-            ⚡ Algorithm Visualizer
+            🚀 LAUNCHPAD
         </div>
 
-        <div class="nav-links">
-            <a href="#visualizer">Visualizer</a>
-            <a href="#about">About</a>
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            MISSION SYSTEM ONLINE
         </div>
+
     </nav>
 
 
-    <!-- Header -->
-    <header class="hero">
+    <!-- Hero Section -->
+    <section class="hero">
+
         
 
-        <h1>Bubble Sort Visualizer</h1>
+        <h1>
+            Mission Priority
+            <span>Engine</span>
+        </h1>
 
         <p>
-            Learn how Bubble Sort works through an interactive
-            step-by-step visualization.
+            Organize critical space operations using
+            <strong>Bubble Sort</strong>.
         </p>
-    </header>
+
+        <div class="tagline">
+            “Every Second Matters.”
+        </div>
+
+    </section>
 
 
-    <!-- Main -->
-    <main id="visualizer">
+    <!-- Mission Dashboard -->
+    <main class="dashboard">
 
-        <!-- Controls -->
+        <!-- Control Panel -->
         <section class="control-panel">
 
-            <div class="control-group">
+            <div class="control-box">
+
                 <label for="arraySize">
-                    Array Size:
-                    <span id="sizeValue">15</span>
+                    MISSION TASKS
                 </label>
+
+                <div class="control-value">
+                    <span id="arraySizeValue">8</span>
+                    TASKS
+                </div>
 
                 <input
                     type="range"
                     id="arraySize"
                     min="5"
-                    max="30"
-                    value="15"
+                    max="15"
+                    value="8"
                 >
+
             </div>
 
 
-            <div class="control-group">
+            <div class="control-box">
+
                 <label for="speed">
-                    Speed:
-                    <span id="speedValue">Medium</span>
+                    SORTING SPEED
                 </label>
+
+                <div class="control-value">
+                    <span id="speedValue">Medium</span>
+                </div>
 
                 <input
                     type="range"
                     id="speed"
-                    min="50"
-                    max="1000"
-                    value="500"
+                    min="1"
+                    max="3"
+                    value="2"
                 >
+
             </div>
 
 
             <div class="buttons">
-                <button id="generateBtn">
-                    Generate Array
+
+                <button
+                    class="btn primary"
+                    id="generateBtn"
+                >
+                    🛰 Generate Mission
                 </button>
 
-                <button id="startBtn" class="primary">
+                <button
+                    class="btn success"
+                    id="startBtn"
+                >
                     ▶ Start Sorting
                 </button>
 
-                <button id="resetBtn">
+                <button
+                    class="btn danger"
+                    id="resetBtn"
+                >
                     ↻ Reset
                 </button>
+
             </div>
 
         </section>
 
 
-        <!-- Status -->
-        <div class="status" id="status">
-            Ready to sort
-        </div>
+        <!-- Mission Status -->
+        <section class="mission-status">
+
+            <div>
+                <span class="small-label">
+                    CURRENT STATUS
+                </span>
+
+                <h3 id="statusText">
+                    Awaiting Mission
+                </h3>
+            </div>
+
+            <div class="mission-code">
+                MISSION ID:
+                <strong id="missionId">
+                    LP-0000
+                </strong>
+            </div>
+
+        </section>
 
 
-        <!-- Visualization -->
+        <!-- Visualizer -->
         <section class="visualizer-card">
 
-            <div id="array-container"></div>
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">
+                        PRIORITY MATRIX
+                    </span>
+
+                    <h2>
+                        Mission Operations
+                    </h2>
+                </div>
+
+                <div class="legend">
+
+                    <span>
+                        <i class="dot normal"></i>
+                        Normal
+                    </span>
+
+                    <span>
+                        <i class="dot active"></i>
+                        Comparing
+                    </span>
+
+                    <span>
+                        <i class="dot sorted"></i>
+                        Sorted
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Bars -->
+            <div
+                id="arrayContainer"
+                class="array-container"
+            ></div>
+
+
+            <div class="sort-message" id="sortMessage">
+                Generate a mission to begin.
+            </div>
 
         </section>
 
 
         <!-- Statistics -->
-        <section class="stats">
+        <section class="stats-grid">
 
             <div class="stat-card">
-                <span class="stat-icon">🔍</span>
+
+                <span class="stat-icon">
+                    🔍
+                </span>
 
                 <div>
                     <p>Comparisons</p>
                     <h2 id="comparisons">0</h2>
                 </div>
+
             </div>
 
 
             <div class="stat-card">
-                <span class="stat-icon">🔄</span>
+
+                <span class="stat-icon">
+                    🔄
+                </span>
 
                 <div>
                     <p>Swaps</p>
                     <h2 id="swaps">0</h2>
                 </div>
+
             </div>
 
 
             <div class="stat-card">
-                <span class="stat-icon">⏱️</span>
+
+                <span class="stat-icon">
+                    ⏱
+                </span>
 
                 <div>
                     <p>Time Complexity</p>
                     <h2>O(n²)</h2>
                 </div>
+
             </div>
 
 
             <div class="stat-card">
-                <span class="stat-icon">💾</span>
+
+                <span class="stat-icon">
+                    💾
+                </span>
 
                 <div>
                     <p>Space Complexity</p>
                     <h2>O(1)</h2>
                 </div>
+
             </div>
 
         </section>
 
 
-        <!-- About -->
-        <section class="about" id="about">
+        <!-- Algorithm Explanation -->
+        <section class="info-section">
 
-            <div class="section-title">
-                <span>📚</span>
-                <h2>How Bubble Sort Works</h2>
+            <div class="info-content">
+
+                <span class="eyebrow">
+                    HOW IT WORKS
+                </span>
+
+                <h2>
+                    Bubble Sort in Mission Control
+                </h2>
+
+                <p>
+                    Every space operation receives an urgency score.
+                    LaunchPad uses Bubble Sort to compare neighboring
+                    mission tasks and move higher-priority operations
+                    toward the top of the queue.
+                </p>
+
+
+                <div class="steps">
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            01
+                        </div>
+
+                        <div>
+                            <h3>Compare</h3>
+
+                            <p>
+                                Compare two neighboring mission tasks.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            02
+                        </div>
+
+                        <div>
+                            <h3>Swap</h3>
+
+                            <p>
+                                Swap them if the priority is incorrect.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            03
+                        </div>
+
+                        <div>
+                            <h3>Finalize</h3>
+
+                            <p>
+                                Repeat until the highest priorities
+                                reach the front.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <p>
-                Bubble Sort is a simple comparison-based sorting algorithm.
-                It repeatedly compares adjacent elements and swaps them
-                if they are in the wrong order.
-            </p>
 
-            <div class="steps">
+            <!-- Pseudocode -->
+            <div class="code-card">
 
-                <div class="step">
-                    <span>01</span>
-                    <h3>Compare</h3>
+                <div class="code-header">
+                    <span>ALGORITHM</span>
+                    <span>BUBBLE_SORT.JS</span>
+                </div>
+
+                <pre><code>for i = 0 to n - 1
+
+    for j = 0 to n - i - 1
+
+        if priority[j] &lt; priority[j + 1]
+
+            swap(priority[j],
+                 priority[j + 1])
+
+        end if
+
+    end for
+
+end for</code></pre>
+
+            </div>
+
+        </section>
+
+
+        <!-- Mission Information -->
+        <section class="mission-info">
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🫁
+                </div>
+
+                <div>
+                    <h3>Oxygen Systems</h3>
+
                     <p>
-                        Compare two adjacent elements.
+                        Life-support monitoring
                     </p>
                 </div>
 
-                <div class="step">
-                    <span>02</span>
-                    <h3>Swap</h3>
+                <span class="priority high">
+                    HIGH
+                </span>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    📡
+                </div>
+
+                <div>
+                    <h3>Communication</h3>
+
                     <p>
-                        Swap them if the first element is larger.
+                        Earth communication link
                     </p>
                 </div>
 
-                <div class="step">
-                    <span>03</span>
-                    <h3>Repeat</h3>
+                <span class="priority medium">
+                    MEDIUM
+                </span>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🍱
+                </div>
+
+                <div>
+                    <h3>Food Systems</h3>
+
                     <p>
-                        Continue until the entire array is sorted.
+                        Crew resource management
                     </p>
                 </div>
+
+                <span class="priority low">
+                    LOW
+                </span>
 
             </div>
 
@@ -200,9 +442,18 @@
 
     <!-- Footer -->
     <footer>
-        <p>
-            Bubble Sort Visualizer • DSA College Project
-        </p>
+
+        <div>
+            🚀 <strong>LAUNCHPAD</strong>
+            — Space Mission Priority Engine
+        </div>
+
+        <div>
+            Built with HTML • CSS • JavaScript
+            <br>
+            DSA: Bubble Sort
+        </div>
+
     </footer>
 
 

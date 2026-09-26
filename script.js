@@ -1,39 +1,126 @@
-let array = [];
+// ==========================================
+// LAUNCHPAD
+// Space Mission Priority Engine
+// Bubble Sort Visualizer
+// ==========================================
 
-let comparisons = 0;
-let swaps = 0;
+
+// Mission Tasks
+const missionTasks = [
+    {
+        name: "Oxygen",
+        icon: "🫁"
+    },
+
+    {
+        name: "Communication",
+        icon: "📡"
+    },
+
+    {
+        name: "Navigation",
+        icon: "🧭"
+    },
+
+    {
+        name: "Power",
+        icon: "⚡"
+    },
+
+    {
+        name: "Food",
+        icon: "🍱"
+    },
+
+    {
+        name: "Research",
+        icon: "🔬"
+    },
+
+    {
+        name: "Satellite",
+        icon: "🛰"
+    },
+
+    {
+        name: "Life Support",
+        icon: "❤️"
+    },
+
+    {
+        name: "Data",
+        icon: "💾"
+    },
+
+    {
+        name: "Engine",
+        icon: "🚀"
+    },
+
+    {
+        name: "Radar",
+        icon: "📶"
+    },
+
+    {
+        name: "Weather",
+        icon: "🌤"
+    },
+
+    {
+        name: "Docking",
+        icon: "🔗"
+    },
+
+    {
+        name: "Security",
+        icon: "🛡"
+    },
+
+    {
+        name: "Fuel",
+        icon: "⛽"
+    }
+];
+
+
+// Variables
+let missionArray = [];
 
 let isSorting = false;
-let isPaused = false;
 
-let speed = 500;
+let comparisons = 0;
+
+let swaps = 0;
 
 
-/* Elements */
+// Elements
+const arrayContainer =
+    document.getElementById("arrayContainer");
 
-const container =
-    document.getElementById("array-container");
+const comparisonsElement =
+    document.getElementById("comparisons");
 
-const sizeSlider =
+const swapsElement =
+    document.getElementById("swaps");
+
+const statusText =
+    document.getElementById("statusText");
+
+const sortMessage =
+    document.getElementById("sortMessage");
+
+const arraySize =
     document.getElementById("arraySize");
 
-const speedSlider =
-    document.getElementById("speed");
+const arraySizeValue =
+    document.getElementById("arraySizeValue");
 
-const sizeValue =
-    document.getElementById("sizeValue");
+const speed =
+    document.getElementById("speed");
 
 const speedValue =
     document.getElementById("speedValue");
-
-const comparisonsDisplay =
-    document.getElementById("comparisons");
-
-const swapsDisplay =
-    document.getElementById("swaps");
-
-const status =
-    document.getElementById("status");
 
 const generateBtn =
     document.getElementById("generateBtn");
@@ -44,116 +131,320 @@ const startBtn =
 const resetBtn =
     document.getElementById("resetBtn");
 
+const missionId =
+    document.getElementById("missionId");
 
-/* Generate Array */
 
-function generateArray() {
+// ==========================================
+// Random Number
+// ==========================================
 
-    array = [];
+function randomPriority() {
+
+    return Math.floor(
+        Math.random() * 91
+    ) + 10;
+
+}
+
+
+// ==========================================
+// Generate Mission ID
+// ==========================================
+
+function generateMissionId() {
+
+    const number =
+        Math.floor(
+            Math.random() * 9000
+        ) + 1000;
+
+    missionId.textContent =
+        "LP-" + number;
+
+}
+
+
+// ==========================================
+// Generate Mission
+// ==========================================
+
+function generateMission() {
+
+    if (isSorting) return;
+
 
     const size =
-        Number(sizeSlider.value);
+        parseInt(arraySize.value);
+
+
+    missionArray = [];
+
+
+    // Shuffle task list
+    const shuffled =
+        [...missionTasks]
+            .sort(() => Math.random() - 0.5);
+
 
     for (let i = 0; i < size; i++) {
 
-        const value =
-            Math.floor(Math.random() * 250) + 30;
+        missionArray.push({
 
-        array.push(value);
+            name: shuffled[i].name,
+
+            icon: shuffled[i].icon,
+
+            priority: randomPriority()
+
+        });
+
     }
 
+
     comparisons = 0;
+
     swaps = 0;
+
 
     updateStats();
 
-    status.innerText =
-        "Ready to sort";
+    generateMissionId();
 
-    displayArray();
+    statusText.textContent =
+        "Mission Ready";
+
+    sortMessage.textContent =
+        "Mission generated. Press Start Sorting.";
+
+
+    renderArray();
+
 }
 
 
-/* Display Array */
+// ==========================================
+// Render Bars
+// ==========================================
 
-function displayArray(
-    highlight1 = -1,
-    highlight2 = -1
+function renderArray(
+    compareA = -1,
+    compareB = -1,
+    sortedFrom = missionArray.length
 ) {
 
-    container.innerHTML = "";
+    arrayContainer.innerHTML = "";
 
-    array.forEach((value, index) => {
 
-        const bar =
-            document.createElement("div");
+    missionArray.forEach(
+        (task, index) => {
 
-        bar.classList.add("bar");
+            const bar =
+                document.createElement("div");
 
-        bar.style.height =
-            value + "px";
 
-        if (
-            index === highlight1 ||
-            index === highlight2
-        ) {
+            bar.classList.add("bar");
 
-            bar.classList.add("comparing");
+
+            if (index >= sortedFrom) {
+
+                bar.classList.add("sorted");
+
+            }
+
+
+            if (
+                index === compareA ||
+                index === compareB
+            ) {
+
+                bar.classList.add("compare");
+
+            }
+
+
+            // Height
+            bar.style.height =
+                `${task.priority * 2.3}px`;
+
+
+            // Priority
+            const value =
+                document.createElement("div");
+
+            value.className =
+                "bar-value";
+
+            value.textContent =
+                task.priority;
+
+
+            // Task name
+            const name =
+                document.createElement("div");
+
+            name.className =
+                "bar-name";
+
+            name.textContent =
+                `${task.icon} ${task.name}`;
+
+
+            bar.appendChild(value);
+
+            bar.appendChild(name);
+
+
+            arrayContainer.appendChild(bar);
+
         }
+    );
 
-        container.appendChild(bar);
-    });
 }
 
 
-/* Update Statistics */
+// ==========================================
+// Statistics
+// ==========================================
 
 function updateStats() {
 
-    comparisonsDisplay.innerText =
+    comparisonsElement.textContent =
         comparisons;
 
-    swapsDisplay.innerText =
+    swapsElement.textContent =
         swaps;
+
 }
 
 
-/* Sleep */
+// ==========================================
+// Speed
+// ==========================================
+
+function getSpeed() {
+
+    const value =
+        parseInt(speed.value);
+
+
+    if (value === 1) {
+
+        return 800;
+
+    }
+
+
+    if (value === 2) {
+
+        return 350;
+
+    }
+
+
+    return 100;
+
+}
+
+
+// ==========================================
+// Speed Label
+// ==========================================
+
+function updateSpeedLabel() {
+
+    const value =
+        parseInt(speed.value);
+
+
+    if (value === 1) {
+
+        speedValue.textContent =
+            "Slow";
+
+    } else if (value === 2) {
+
+        speedValue.textContent =
+            "Medium";
+
+    } else {
+
+        speedValue.textContent =
+            "Fast";
+
+    }
+
+}
+
+
+// ==========================================
+// Sleep
+// ==========================================
 
 function sleep(ms) {
 
-    return new Promise(resolve =>
-        setTimeout(resolve, ms)
+    return new Promise(
+        resolve => setTimeout(
+            resolve,
+            ms
+        )
     );
+
 }
 
 
-/* Bubble Sort */
+// ==========================================
+// Bubble Sort
+// ==========================================
 
 async function bubbleSort() {
 
+    if (isSorting) return;
+
+
+    if (missionArray.length === 0) {
+
+        generateMission();
+
+    }
+
+
     isSorting = true;
 
-    startBtn.disabled = true;
 
     generateBtn.disabled = true;
 
-    sizeSlider.disabled = true;
+    arraySize.disabled = true;
+
+    startBtn.disabled = true;
 
 
-    status.innerText =
-        "Sorting in progress...";
+    statusText.textContent =
+        "Sorting Mission Tasks...";
 
 
+    sortMessage.textContent =
+        "Bubble Sort is comparing mission priorities.";
+
+
+    const n =
+        missionArray.length;
+
+
+    // Bubble Sort
     for (
         let i = 0;
-        i < array.length;
+        i < n - 1;
         i++
     ) {
 
+        let swapped =
+            false;
+
+
         for (
             let j = 0;
-            j < array.length - i - 1;
+            j < n - i - 1;
             j++
         ) {
 
@@ -161,145 +452,193 @@ async function bubbleSort() {
 
             updateStats();
 
-            displayArray(j, j + 1);
 
-            await sleep(speed);
+            renderArray(
+                j,
+                j + 1,
+                n - i
+            );
 
 
+            sortMessage.textContent =
+                `Comparing ${missionArray[j].name} (${missionArray[j].priority}) with ${missionArray[j + 1].name} (${missionArray[j + 1].priority})`;
+
+
+            await sleep(
+                getSpeed()
+            );
+
+
+            // Highest priority first
             if (
-                array[j] >
-                array[j + 1]
+                missionArray[j].priority <
+                missionArray[j + 1].priority
             ) {
 
                 const temp =
-                    array[j];
+                    missionArray[j];
 
-                array[j] =
-                    array[j + 1];
+                missionArray[j] =
+                    missionArray[j + 1];
 
-                array[j + 1] =
+                missionArray[j + 1] =
                     temp;
+
 
                 swaps++;
 
+                swapped = true;
+
+
                 updateStats();
 
-                displayArray(
+
+                renderArray(
                     j,
-                    j + 1
+                    j + 1,
+                    n - i
                 );
 
-                await sleep(speed);
+
+                sortMessage.textContent =
+                    "Priority swap executed.";
+
+
+                await sleep(
+                    getSpeed()
+                );
+
             }
+
         }
+
+
+        // If no swaps, array is sorted
+        if (!swapped) {
+
+            break;
+
+        }
+
     }
 
 
-    displayArray();
-
-    const bars =
-        document.querySelectorAll(".bar");
-
-
-    bars.forEach(bar => {
-
-        bar.classList.add("sorted");
-
-    });
+    renderArray(
+        -1,
+        -1,
+        0
+    );
 
 
-    status.innerText =
-        "✓ Array sorted successfully";
+    statusText.textContent =
+        "Mission Priorities Optimized";
+
+    sortMessage.textContent =
+        "Mission queue successfully prioritized.";
+
 
     isSorting = false;
 
-    startBtn.disabled = false;
 
     generateBtn.disabled = false;
 
-    sizeSlider.disabled = false;
+    arraySize.disabled = false;
+
+    startBtn.disabled = false;
+
 }
 
 
-/* Speed */
+// ==========================================
+// Reset
+// ==========================================
 
-speedSlider.addEventListener(
+function resetMission() {
+
+    if (isSorting) return;
+
+
+    missionArray = [];
+
+    comparisons = 0;
+
+    swaps = 0;
+
+
+    updateStats();
+
+
+    arrayContainer.innerHTML = "";
+
+
+    statusText.textContent =
+        "Awaiting Mission";
+
+
+    sortMessage.textContent =
+        "Generate a mission to begin.";
+
+
+    missionId.textContent =
+        "LP-0000";
+
+}
+
+
+// ==========================================
+// Array Size
+// ==========================================
+
+arraySize.addEventListener(
     "input",
     () => {
 
-        speed =
-            Number(speedSlider.value);
+        arraySizeValue.textContent =
+            arraySize.value;
 
-        if (speed >= 700) {
-
-            speedValue.innerText =
-                "Slow";
-
-        } else if (speed >= 350) {
-
-            speedValue.innerText =
-                "Medium";
-
-        } else {
-
-            speedValue.innerText =
-                "Fast";
-        }
     }
 );
 
 
-/* Array Size */
+// ==========================================
+// Speed
+// ==========================================
 
-sizeSlider.addEventListener(
+speed.addEventListener(
     "input",
-    () => {
-
-        sizeValue.innerText =
-            sizeSlider.value;
-
-        if (!isSorting) {
-
-            generateArray();
-        }
-    }
+    updateSpeedLabel
 );
 
 
-/* Buttons */
+// ==========================================
+// Buttons
+// ==========================================
 
 generateBtn.addEventListener(
     "click",
-    generateArray
+    generateMission
 );
 
 
 startBtn.addEventListener(
     "click",
-    () => {
-
-        if (!isSorting) {
-
-            bubbleSort();
-        }
-    }
+    bubbleSort
 );
 
 
 resetBtn.addEventListener(
     "click",
-    () => {
-
-        isSorting = false;
-
-        generateArray();
-
-        status.innerText =
-            "Array reset";
-    }
+    resetMission
 );
 
 
-/* Initial Array */
+// ==========================================
+// Initial Setup
+// ==========================================
 
-generateArray();
+arraySizeValue.textContent =
+    arraySize.value;
+
+updateSpeedLabel();
+
+generateMission();
